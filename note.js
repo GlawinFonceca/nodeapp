@@ -33,7 +33,7 @@ const saveNotes =function (notes)
 const loadNote = function() {
     try{
         const dataBuffer = fs.readFileSync('notes.json');
-        const dataJson = dataBuffer.toString();//converts to string
+        const dataJson = dataBuffer.toString();
         return JSON.parse(dataJson);
     }
      catch(e){
