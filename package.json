@@ -1,0 +1,23 @@
+{
+  "name": "nodeapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GlawinFonceca/nodeapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GlawinFonceca/nodeapp/issues"
+  },
+  "homepage": "https://github.com/GlawinFonceca/nodeapp#readme",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "validator": "^13.7.0"
+  }
+}
