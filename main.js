@@ -10,3 +10,16 @@ const chalk = require('chalk');
 
 
 console.log(chalk.red.bold.inverse('success'));
+
+//getting inputs
+
+let command = process.argv[2];
+
+console.log(process.argv);
+
+if( command === 'add') {
+    console.log('added')
+}
+else{
+    console.log('removed');
+}

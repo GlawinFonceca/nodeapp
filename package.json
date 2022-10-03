@@ -18,6 +18,8 @@
   "homepage": "https://github.com/GlawinFonceca/nodeapp#readme",
   "dependencies": {
     "chalk": "^2.4.1",
-    "validator": "^13.7.0"
+    "process": "^0.11.10",
+    "validator": "^13.7.0",
+    "yargs": "^17.6.0"
   }
 }
