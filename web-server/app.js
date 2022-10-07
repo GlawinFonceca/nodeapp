@@ -4,6 +4,7 @@ const app =express();
 const path = require('path');
 const hbs = require('hbs');
 const { get } = require('http');
+const port = 3000;
 
 //define path to expresss config
 const path1 = path.join( __dirname,'../web-server/public');
@@ -75,6 +76,6 @@ app.get('*',(req,res) => {
 
 })
 
-app.listen(5000,() => {
-    console.log('server is up on port 4000');
+app.listen(port,() => {
+    console.log('server is up on port '+port);
 })
