@@ -14,47 +14,47 @@ const User = mongoose.model('User',{// data validation
         type : Number,
         default :0
     },
-    email:{
-        type :String,
-        required : true,
-        trim:true,
-        lowecase : true,
-        validate(value){
-            if(!validator.isEmail(value)){
-                throw new Error('invalid email')
-            }
-        }
-     },
-    password:{
-       type :String,
-       required :true,
-       trim : true,
-       minlength :7,
-       validate(value){
-        if(value ===('password')){
-          throw new Error('enter different password');
-        }
+//     email:{
+//         type :String,
+//         required : true,
+//         trim:true,
+//         lowecase : true,
+//         validate(value){
+//             if(!validator.isEmail(value)){
+//                 throw new Error('invalid email')
+//             }
+//         }
+//      },
+//     password:{
+//        type :String,
+//        required :true,
+//        trim : true,
+//        minlength :7,
+//        validate(value){
+//         if(value ===('password')){
+//           throw new Error('enter different password');
+//         }
        
-       }
+//        }
 
 
-    }
+//    }
 })
 
-const use = new User({
-    name :'    smith',
-    age :30,
-    email :'  smith@email.com',
-    password : 'Smithat1'
-})
+//  const use = new User({
+//     name :'    smith',
+//     age :30,
+//     email :'  smith@email.com',
+//     password : 'Smithat1'
+// })
 
-use.save()
-.then(() =>{
-    console.log(use);
-})
-.catch((error) =>{
-    console.log('error',error)
-})
+// use.save()
+// .then(() =>{
+//     console.log(use);
+// })
+// .catch((error) =>{
+//     console.log('error',error)
+// })
 
 
 // const TASK = mongoose.model('TASK',{
@@ -78,3 +78,5 @@ use.save()
 // .catch((error) =>{
 //     console.log(error);
 // })
+
+module.exports = User;

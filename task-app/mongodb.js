@@ -6,7 +6,7 @@
 //object destructuring
 const { MongoClient, ObjectId} =require('mongodb')
 const connectionUrl = 'mongodb://127.0.0.1:27017';
-const databaseName = 'task-manager';
+const databaseName = 'app';
 
 // const id= new ObjectId()
 // console.log(id);
@@ -26,18 +26,18 @@ MongoClient.connect(connectionUrl,{ },(error,client) => {
 
 
         //insert doc
-    //      db.collection('user').insertMany([{
-    //         name : 'john',
-    //         age : 23
-    //     },{
-    //         name : 'alilce',
-    //         age :34
-    //     }],(error,result) =>{
-    //         if(error){
-    //          return console.log('unable to insert user');
-    //         }
+         db.collection('user').insertMany([{
+            name : 'john',
+            age : 23
+        },{
+            name : 'alilce',
+            age :34
+        }],(error,result) =>{
+            if(error){
+             return console.log('unable to insert user');
+            }
 
-    //     }) 
+        }) 
 
 
 
