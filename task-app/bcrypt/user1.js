@@ -1,4 +1,5 @@
 const User = require('./user')
+const auth  = require('./auth')
 const express = require('express');
 
 
@@ -11,23 +12,91 @@ router.post('/users', async (req,res) =>{
 
     try{
       await user.save()
-      await res.send(user);
+      const token = await user.generateJsonToken()
+      res.send({user , token});
+      await res.status(201).send(user);
 
     } catch (e){
-      res.send(e)
+      res.status(400).send(e)
 
     }
 })
 
 
+
+
+
+
+
+// user login
+router.post('/users/login' , async (req,res) => {
+  try{
+  const user = await User.findByCredentials(req.body.email,req.body.password);
+  // const token = await user.generateJsonToken()
+  res.send({ user :user.getProfile(), token});
+   
+  }
+  catch(e){
+    res.status(404).send('not found')
+  }
+})
+
+
+
+
+
+
+
+//logout user
+router.post('/users/logout',auth, async (req,res) => {
+  try{
+    req.user.tokens = req.user.tokens.filter((token) => {
+      return token.token !== req.token
+    })
+    await req.user.save()
+    res.send()
+
+  }
+  catch(e){
+    res.status(500).send()
+  }
+})
+
+
+
+
+
+
+
+
+
+//logout all
+router.post('/users/logoutall',auth, async (req,res) =>{
+  try{
+    req.user.tokens =[]
+    await req.user.save()
+    res.send('success')
+  }
+  catch(e){
+    res.status(500).send('error')
+
+  }
+})
+
+
+
+
+
+
+
 //read user
-router.get('/users',async (req,res)=>{
+router.get('/users/me',auth ,async (req,res)=>{
    try{
-    const user = await User.find({})
-    if(!user){
-      res.send('user not found');
-    }
-    res.send(user);
+    // const user = await User.find({})
+    // if(!user){
+    //   res.send('user not found');
+    // }
+    res.send(req.user);
 
    }
    catch(e){
@@ -37,27 +106,36 @@ router.get('/users',async (req,res)=>{
 })
 
 
+
+
+
+
+
+
 //updaete user using patch
-router.patch('/users/:id', async (req,res) => {
+router.patch('/users/me',auth, async (req,res) => {
 
   const updates =Object.keys(req.body);
   const allowedUpdates =['name','age','email','password'];
   const validOperation = updates.every((update) =>allowedUpdates.includes(update))
+
   if(!validOperation){
     return res.status(404).send('invalid updates');
   } 
+
   try{
-    const user = await User.findByIdAndUpdate(req.params.id)
+   // const user = await User.findByIdAndUpdate(req.params.id)
     updates.forEach((update) => {
       user[update]=req.body[update];
-      user.save();
+     
     })
 
+    await req.user.save();
     //const user = await User.findByIdAndUpdate(req.params.id,req.body,{new : true,runValidators : true})
     if(!user){
       res.send('error');
     }
-    res.send(user)
+    res.send(req.user)
 
   }
   catch(e){
@@ -66,14 +144,24 @@ router.patch('/users/:id', async (req,res) => {
   }
 })
 
+
+
+
+
+
+
 //delete user
-router.delete('/users/:id', async (req,res) =>{
+router.delete('/users/me',auth, async (req,res) =>{
+  
   try{
-    const user = await User.findByIdAndDelete(req.params.id);
-    if(!user){
-      res.send('invalid id')
-    }
-    res.send(user)
+    // const user = await User.findByIdAndDelete(req.params.id);
+    // if(!user){
+    //   res.send('invalid id')
+    // }
+    // res.send(user)
+    await req.user.remove()
+    res.send(req.user)
+
 
   }
   catch(e){
