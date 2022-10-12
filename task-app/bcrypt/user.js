@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const { mongoose }= require('mongoose');
 const validator =require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -6,16 +6,18 @@ const TASK = require('./task');
 
 
 
-const userSchema = new mongoose.Schema({ name :{
+const userSchema = new mongoose.Schema( 
+    {
+     name :{
     type :String,
     required :true,
     trim : true
 },
-age : {
+    age : {
     type : Number,
     default :0
 },
-email:{
+    email:{
     type :String,
     unique : true,
     required : true,
@@ -27,7 +29,7 @@ email:{
         }
     }
  },
-password:{
+    password:{
    type :String,
    required :true,
    trim : true,
@@ -41,7 +43,10 @@ password:{
 
 
 },
-tokens :[{
+    avatar :{
+    type :Buffer
+},
+    tokens :[{
     token:{
         type : String,
         required : true
@@ -97,6 +102,9 @@ userSchema.pre('save', async function(next) {
     }
     next();
 })
+
+
+
 
 //delete user
 userSchema.pre('remove', async function (next) {

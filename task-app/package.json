@@ -1,0 +1,29 @@
+{
+  "name": "task-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./bcrypt/index1.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.10.0",
+    "mongoose": "^6.6.5",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^2.0.20",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "jest": "^23.6.0",
+    "supertest": "^6.3.0"
+  },
+  "scripts": {
+    "start": "node bcrypt/index1.js",
+    "dev": "env-cmd ./dev.env nodemon bcrypt/index1.js",
+    "test": "jest --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

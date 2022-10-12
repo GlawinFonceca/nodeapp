@@ -1,6 +1,10 @@
 const User = require('./user')
 const auth  = require('./auth')
 const express = require('express');
+const multer = require('multer');
+// const sharp = require('sharp')
+
+
 
 
 const router = new express.Router()
@@ -9,7 +13,6 @@ const router = new express.Router()
 //create user
 router.post('/users', async (req,res) =>{
     const user = new User(req.body)
-
     try{
       await user.save()
       const token = await user.generateJsonToken()
@@ -169,6 +172,70 @@ router.delete('/users/me',auth, async (req,res) =>{
 
   }
 })
+
+
+
+
+//upload avatar
+
+const upload = multer({
+  // dest : 'avatars',
+  limits : {
+    fileSize : 1000000
+  },
+  fileFilter (req, file ,callback) {
+    //if(file.originalname.endsWith('.pdf')){
+      if(!file.originalname.match(/.(png|jpg|jpeg)$/)){
+      return callback( new Error ('please upload images'))
+    }
+    callback( undefined,true)
+
+  }
+})
+
+router.post('/user/me/avatar',auth, upload.single('avatar'), async (req,res) => {
+  req.user.avatar =req.file.buffer
+  // const buffer = await sharp(req.file.buffer).resize({height:250 , width :250}).png().toBuffer();
+  // req.user.avatar=buffer;
+  await req.user.save();
+  res.send()
+},(error,req,res,next) => {
+  res.status(400).send({ error: error.message});
+})
+
+
+
+
+//delete avatar
+router.delete('/user/me/avatar', auth , async(req,res) => {
+  req.user.avatar= undefined
+  await req.user.save();
+  res.send()
+},
+(error,req,res,next) => {
+  res.status(400).send(' avatar not found')
+})
+
+
+//read avatar
+router.get('/user/:id/avatar', async(req,res)=> {
+  try{
+    const user = await User.findById(req.params.id);
+    if(!user || !user.avatar){
+      throw new Error()
+    }
+    res.set('Content-Type','image/jpg')
+    res.status(200).send(user.avatar)
+
+
+  }
+  catch(e){
+    res.status(400).send()
+  }
+})
+
+
+
 
 
 module.exports=router;
